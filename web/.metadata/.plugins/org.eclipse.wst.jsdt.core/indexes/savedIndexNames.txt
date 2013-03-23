@@ -1,0 +1,6 @@
+INDEX VERSION 1.122+/data/workspace/austipic/web/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2097817708.index
+3278231657.index
+1151532285.index
+3941535680.index
+2918294993.index

@@ -1,0 +1,10 @@
+!SESSION 2013-03-23 13:10:28.002 -----------------------------------------------
+eclipse.buildId=M20120914-1800
+java.version=1.7.0_05
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.wst.common.project.facet.ui 4 0 2013-03-23 13:11:19.219
+!MESSAGE Runtime component type org.mortbay.jetty.serveradaptor.runtime has not been defined. It is used in plugin org.mortbay.jetty.serveradaptor.
