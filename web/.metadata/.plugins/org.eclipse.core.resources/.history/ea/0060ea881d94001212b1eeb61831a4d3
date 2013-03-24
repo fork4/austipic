@@ -1,0 +1,5 @@
+package org.austipic.story;
+
+public final class Scene {
+
+}

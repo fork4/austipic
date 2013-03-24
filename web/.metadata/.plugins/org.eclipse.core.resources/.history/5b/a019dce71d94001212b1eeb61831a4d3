@@ -1,0 +1,15 @@
+package org.austipic.story;
+
+public final class Story {
+	public final String id;
+	public final String title;
+	public final Integer version;
+	public final List<Scene> scenes;
+	public final String keywords;
+	
+	
+	public static final Story load(String id) {
+		return new Story();
+	}
+	
+}

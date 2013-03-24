@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<story id="12345">
+    <title>Bubba Goes To Walmart</title>
+    <keywords>Bubba goes to walmart</keywords>
+    <scene sequenceNumber="1">
+        <text>Bubba, it's time to go to the Walmart!</text>
+        <resouces>
+            <background>background1.png</background>
+            <zone number="1">avatar.png</zone>
+            <zone number="2"></zone>
+            <zone number="3">actor_1.png</zone>
+        </resouces>
+    </scene>
+    <scene sequenceNumber="2">
+        <text>Bubba puts on his best pair of cutoffs!</text>
+        <resouces>
+            <background>background1.png</background>
+            <zone number="1">avatar.png</zone>
+            <zone number="2">prop_1.png</zone>
+            <zone number="3"></zone>
+        </resouces>
+    </scene>
+    <scene sequenceNumber="3">
+        <text>Bubba looks at toys at the Walmart!</text>
+        <resouces>
+            <background>background2.png</background>
+            <zone number="1">prop_2.png</zone>
+            <zone number="2">prop_3.png</zone>
+            <zone number="3">prop_4.png</zone>
+        </resouces>
+    </scene>
+</story>

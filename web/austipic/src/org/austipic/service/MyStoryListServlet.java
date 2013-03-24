@@ -1,0 +1,119 @@
+package org.austipic.service;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.austipic.exception.StoryNotFoundException;
+import org.austipic.story.Story;
+import org.bson.types.ObjectId;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
+/**
+ * Servlet implementation class StoryList
+ */
+@WebServlet("/mystories")
+public class MyStoryListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private static final String NO_STORIES_FOUND = 
+			"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+			"<stories></stories>";
+	
+	MongoClient mongo;
+
+	
+    @Override
+	public void init() throws ServletException {
+		super.init();
+
+		try {
+			System.out.println("Connecting to mongo on " + getServletContext().getInitParameter("db-host"));
+			mongo = new MongoClient(getServletContext().getInitParameter("db-host"));
+		} catch (UnknownHostException e) {
+			throw new ServletException("Unable to connect to database at ");
+		}   
+	}
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MyStoryListServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/xml");
+		response.getWriter().println(processRequest(request));
+		response.flushBuffer();
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/xml");
+		response.getWriter().println(processRequest(request));
+		response.flushBuffer();
+	}
+	
+	// TODO - this is a really bad way to do it.
+	protected String processRequest(HttpServletRequest request) {
+		// Connect to the database and fetch the story
+		System.out.println("Getting story from mongo...");
+		DB db = mongo.getDB("austipic");
+		
+		String readerId = request.getParameter("reader");
+		
+		DBCollection readerstories = db.getCollection("readerstories");
+		BasicDBObject query = new BasicDBObject("reader", readerId);
+		DBCursor cursor = readerstories.find(query);
+
+		
+		StringBuilder list = new StringBuilder();
+		try {
+			list.append("<stories>");
+		   while(cursor.hasNext()) {
+			   DBObject readerstory = cursor.next();
+			   DBObject story = getStory(new ObjectId(readerstory.get("story").toString()), db);
+		       list.append("<story id=\"");
+		       list.append(story.get("_id"));
+		       list.append("\">");
+		       list.append(story.get("title"));
+		       list.append("</story>");
+		       
+		   }
+			list.append("</stories>");
+		} finally {
+		   cursor.close();
+		}
+
+
+		return list.toString();
+	}
+	
+	protected DBObject getStory(ObjectId id, DB db) {
+		DBCollection coll = db.getCollection("stories");
+		BasicDBObject query = new BasicDBObject("_id", id);
+
+		return coll.findOne(query);
+	}
+
+
+}

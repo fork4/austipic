@@ -1,0 +1,20 @@
+1364085881304	Rename package 'org.autstipic.service'
+1364086015213	Rename type 'Story'
+1364086510497	Rename field 'seqNum'
+1364086532221	Rename local variable 'seqNum'
+1364103169762	Move compilation unit
+1364103723247	Rename type 'Resources'
+1364103880255	Rename field 'name'
+1364104208418	Rename local variable 'builder'
+1364108173770	Rename field 'mongoClient'
+1364115077253	Rename field 'STORY_NOT_FOUND'
+1364115459677	Delete element
+1364150740647	Rename local variable 'id'
+1364153876988	Rename type 'StoryList'
+1364153888820	Copy compilation unit
+1364156694842	Rename resource 'Star-Wars-Weekends-Poster-4.jpg'
+1364156909790	Rename resource 'background_1.jpg'
+1364158587483	Copy file
+1364158589676	Copy file
+1364158604555	Copy files
+1364159902008	Rename resource 'hotairbaloons'

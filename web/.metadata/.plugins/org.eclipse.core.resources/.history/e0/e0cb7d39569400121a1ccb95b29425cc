@@ -1,0 +1,50 @@
+import argo.format.JsonFormatter;
+import argo.format.PrettyJsonFormatter;
+import argo.jdom.JsonObjectNodeBuilder;
+import argo.jdom.JsonRootNode;
+
+import static argo.format.JsonNumberUtils.asBigDecimal;
+import static argo.jdom.JsonNodeBuilders.*;
+import static argo.jdom.JsonNodeFactories.*;
+import static argo.jdom.JsonNodeSelectors.aStringNode;
+import static argo.jdom.JsonNodeSelectors.anArrayNode;
+
+public class StoryGenerator {
+	private static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		JsonRootNode json = object(
+	            field("title", string("Test Story")),
+	            field("keywords", string("shopping, outing")),
+	            field("version", number("1")),
+	            field("levels", array(
+	                    number("1"),
+	                    number("2"),
+	                    number("3")
+	            )),
+	            field("text", array(
+	            		buildScene(1, "background_1.png", "actor_1.png", "actor_2.png", "prop_1.png"),
+	            		buildScene(2, "background_2.png", "actor_1.png", "", "actor_3.png"),
+	            		buildScene(3, "background_3.png", "prop_2.png", "prop_3.png", "prop_4.png")
+	            		))
+	    );
+		
+		System.out.println(JSON_FORMATTER.format(json));
+	}
+	
+	public static JsonRootNode buildScene(Integer seqNum, 
+			String background, String zone1, String zone2, String zone3 ) {
+		return object(
+				field("sequenceNumber", number(seqNum)),	
+				field("background", string(background)),	
+				field("zone", string(zone1)),	
+				field("zone", string(zone2)),	
+				field("zone", string(zone3))	
+		);
+				
+	}
+
+}

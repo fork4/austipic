@@ -1,0 +1,10 @@
+package org.austipic.db;
+
+import com.mongodb.MongoClient;
+
+public class DB {
+	public static final Object fetch() {
+		return null;
+	}
+
+}

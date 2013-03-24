@@ -1,0 +1,19 @@
+package org.austipic.story;
+
+import java.util.List;
+
+public final class Scene {
+	public final Integer  sequenceNumber;
+	public final String   text;
+	public final List<Resource> resources;
+	
+	public Scene(Integer sequenceNumber, String text, List<Resource> resources) {
+		super();
+		this.sequenceNumber = sequenceNumber;
+		this.text = text;
+		this.resources = resources;
+	}
+	
+	
+	
+}

@@ -1,0 +1,141 @@
+package org.austipic.story;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.austipic.exception.StoryNotFoundException;
+import org.bson.types.ObjectId;
+
+import com.google.common.base.Joiner;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
+public final class Story {
+	public final String id;
+	public final String title;
+	public final Integer version;
+	public final String keywords;
+	public final List<Scene> scenes;
+	public final List<Integer> levels;
+	
+	private Story(String id, String title, Integer version, String keywords,
+			List<Scene> scenes, List<Integer> levels) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.version = version;
+		this.keywords = keywords;
+		this.scenes = scenes;
+		this.levels = levels;
+	}
+	
+	
+	public static final String getAsJson(String id, DB db) throws StoryNotFoundException {
+		// Connect to the database and fetch the story
+		System.out.println("Getting story from mongo...");
+		DBCollection coll = db.getCollection("stories");
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+
+		DBObject result = coll.findOne(query);
+
+		if(result != null) {
+			return result.toString();
+		}
+		
+		return "";
+	}
+	
+	public static final String getAsJson(String storyId, String readerId, DB db) throws StoryNotFoundException {
+		// Connect to the database and fetch the story
+		System.out.println("Getting personalized story from mongo...");		
+		DBObject story = getStory(storyId, db);
+		
+		DBCollection readers = db.getCollection("readers");
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(readerId));
+		DBObject reader =  readers.findOne(query);
+		
+		DBCollection readerstories = db.getCollection("readerstories");
+		query = new BasicDBObject("reader", readerId).append("story", storyId);
+		DBObject customizations =  readerstories.findOne(query);
+		System.out.println("Customizations: ");
+		if(customizations != null) {
+			System.out.println(customizations.toString());
+		}
+		
+		if(story != null && reader != null && customizations != null) {
+			// personalize
+			System.out.println("Personalizing the story for " + reader.get("shortName").toString());
+			String json = story.toString().replaceAll("~~NAME~~", reader.get("shortName").toString());
+			
+			json = "{ \"baseUrl\":\"http://api.austipic.org/resource/" + 
+					customizations.get("theme") + "/\" " + json.substring(1);
+			
+			return json;
+		}
+		
+		return "";
+	}
+	
+	protected static DBObject getStory(String id, DB db) {
+		DBCollection coll = db.getCollection("stories");
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+
+		return coll.findOne(query);
+	}
+
+	
+	public static final Story load(String id, DB db) throws StoryNotFoundException {
+		// Connect to the database and fetch the story
+		System.out.println("Getting story from mongo...");
+		DBCollection coll = db.getCollection("stories");
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+
+		DBObject result = coll.findOne(query);
+
+		if(result != null) {
+			System.out.println("result not null");
+		}
+		
+		// 
+		return new Story("", "", 0, "", new ArrayList(), new ArrayList());
+	}
+	
+	public static final Story load(String id, String reader, DB db) throws StoryNotFoundException {
+		// Connect to the database and fetch the story
+		System.out.println("Getting story from mongo...");
+		DBCollection coll = db.getCollection("stories");
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+
+		DBObject result = coll.findOne(query);
+
+		if(result != null) {
+			System.out.println("result not null");
+		}
+		
+		// 
+		return new Story("", "", 0, "", new ArrayList(), new ArrayList());
+	}
+
+	
+	public final String toXml() {
+		StringBuilder xml = new StringBuilder();
+		
+		xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+		
+		xml.append("<story id=\""); xml.append(id); xml.append("\">");
+		xml.append("<title>"); xml.append(title); xml.append("</title>");
+		xml.append("<keywords>"); xml.append(keywords); xml.append("</keywords>");
+		xml.append("<levels>"); Joiner.on(", ").join(levels); xml.append("</levels>");
+		
+		xml.append("</story>");
+
+		return xml.toString();
+	}
+
+
+	
+}

@@ -1,0 +1,35 @@
+package org.austipic.story;
+
+import java.util.List;
+
+import org.austipic.exception.StoryNotFoundException;
+
+public final class Story {
+	public final String id;
+	public final String title;
+	public final Integer version;
+	public final String keywords;
+	public final List<Scene> scenes;
+	public final List<Integer> levels;
+	
+	private Story(String id, String title, Integer version, String keywords,
+			List<Scene> scenes, List<Integer> levels) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.version = version;
+		this.keywords = keywords;
+		this.scenes = scenes;
+		this.levels = levels;
+	}
+	
+	public static final Story load(String id) throws StoryNotFoundException {
+		// Connect to the database and fetch the story
+		
+		// 
+		return new Story("", "", 0, "", null, null);
+	}
+
+
+	
+}

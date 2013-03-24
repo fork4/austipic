@@ -1,0 +1,12 @@
+package org.austipic.db;
+
+import com.mongodb.MongoClient;
+
+public class DB {
+	MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+	
+	public static final Object fetch() {
+		return null;
+	}
+
+}

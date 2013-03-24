@@ -1,0 +1,8 @@
+package org.austipic.story;
+
+public final class Resources {
+	public enum TYPES {
+		Background, Zone
+	}
+
+}
